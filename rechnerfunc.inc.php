@@ -1,11 +1,14 @@
 <?php
 
 function getSumOfAllFields($fields) {
-    $sum = '';
+    $sum = 0;
 
     if(!empty($_POST)) {
         foreach ($fields as $field) {
-            $sum += $_POST[$field];
+            $value = $_POST[$field];
+            if(validate($field) === true) {
+                $sum += $value;
+            }
         }
     }
 
@@ -17,7 +20,10 @@ function getMultiOfAllFields($fields) {
 
     if(!empty($_POST)) {
         foreach ($fields as $field) {
-            $sum *= $_POST[$field];
+            $value = $_POST[$field];
+            if(validate($value) === true) {
+                $sum *= $_POST[$field];
+            }
         }
     }
 
@@ -40,14 +46,16 @@ function calculate($fields) {
 
 function validate($value) {
     if (!empty($_POST)) {
-        $check = $_POST[$value];
+        if(isset($_POST[$value])) {
+            $check = $_POST[$value];
 
-        if($check === '') {
-            return 'Leerer Wert';
-        }
+            if($check === '') {
+                return 'Leerer Wert';
+            }
 
-        if(!is_numeric($check)) {
-            return 'Keine Zahl';
+            if(!is_numeric($check)) {
+                return 'Keine Zahl';
+            }
         }
     }
 
@@ -64,11 +72,11 @@ function getFormular($fields) {
         }
 
 
-        $html .= '<input type="text" name="' . $field . '" id="' . $field .'">';
+        $html .= '<div><input type="text" name="' . $field . '" id="' . $field .'"></div>';
     }
 
-    $html .= '<input type="radio" name="operator" value="add" checked="checked"> Add';
-    $html .= '<input type="radio" name="operator" value="multi"> Multi';
+    $html .= '<div><input type="radio" name="operator" value="add" checked="checked"> Add';
+    $html .= '<input type="radio" name="operator" value="multi"> Multi</div>';
     $html .= '<input type="submit" value="addieren">';
     $html .= '</form>';
     return $html;
