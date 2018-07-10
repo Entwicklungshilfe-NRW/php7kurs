@@ -1,0 +1,3 @@
+<?php
+
+define('CMSPATH', 'pages/');
