@@ -1,4 +1,7 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 require_once 'config.ing.php';
 require_once 'functions.inc.php';

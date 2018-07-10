@@ -52,6 +52,14 @@ function getContent($path = CMSPATH) {
 }
 
 function getLogin() {
+    if(isset($_GET['logout'])) {
+        unset($_SESSION['login']);
+    }
+
+    if(isset($_SESSION['login']) && $_SESSION['login'] === true) {
+        return 'Willkommen mein Freund <a href="/cms/?logout=1">Logout</a>';
+    }
+
     $html = '<form action="index.php" method="post">';
     $html .= '<div><input type="text" name="username" id="username"></div>';
     $html .= '<div><input type="password" name="password" id="password"></div>';
@@ -63,7 +71,7 @@ function getLogin() {
         $password = 'password';
 
         if($_POST['username'] === $username && $_POST['password'] === $password) {
-            $html = 'eingeloggt';
+            $_SESSION['login'] = true;
         }
     }
 
