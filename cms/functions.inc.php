@@ -50,3 +50,37 @@ function getContent($path = CMSPATH) {
 
     return $content;
 }
+
+function getLogin() {
+    $html = '<form action="index.php" method="post">';
+    $html .= '<div><input type="text" name="username" id="username"></div>';
+    $html .= '<div><input type="password" name="password" id="password"></div>';
+    $html .= '<div><input type="submit" value="Login"></div>';
+    $html .= '</form>';
+
+    if (isset($_POST['username'])) {
+        $username = 'admin';
+        $password = 'password';
+
+        if($_POST['username'] === $username && $_POST['password'] === $password) {
+            $html = 'eingeloggt';
+        }
+    }
+
+
+    return $html;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

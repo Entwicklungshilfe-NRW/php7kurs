@@ -14,6 +14,9 @@ $content = getContent();
         <nav>
             <?= getCmsNavigation(); ?>
         </nav>
+        <div id="login">
+            <?= getLogin(); ?>
+        </div>
         <div id="content">
             <h1><?= $content['content']['headline'] ?></h1>
             <p><?= $content['content']['bodytext'] ?></p>
