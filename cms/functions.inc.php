@@ -7,7 +7,7 @@
  */
 
 function getCmsNavigation() {
-    $files = glob(CMSPATH . '*.php');
+    $files = glob(CMSPATH . '*.inc.php');
 
     $html = '<ul>';
 
@@ -15,7 +15,7 @@ function getCmsNavigation() {
         $replace = str_replace(
             [
                 CMSPATH,
-                '.php'
+                '.inc.php'
             ],
             '',
             $file
@@ -40,7 +40,7 @@ function getContent($path = CMSPATH) {
         $pageName = $_GET['page'];
     }
 
-    $pathToFile = $path . $pageName . '.php';
+    $pathToFile = $path . $pageName . '.inc.php';
 
     if(is_file($pathToFile)) {
         require_once $pathToFile;
