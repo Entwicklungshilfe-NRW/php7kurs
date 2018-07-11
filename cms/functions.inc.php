@@ -101,13 +101,26 @@ function getAdminPage() {
     }
 
     if (isset($_POST['title'])) {
-        $id = $_POST['id'];
+        $id = '';
+
+        if(isset($_POST['id'])) {
+            $id = $_POST['id'];
+        }
+
         $title = $_POST['title'];
         $headline = $_POST['headline'];
         $bodytext = $_POST['bodytext'];
 
         $db = new my_db(DB_MAIN);
-        $sql = "update `pages` SET `title`='$title', `headline`='$headline', `bodytext`='$bodytext' where `id`=$id;";
+
+        $sql = "insert into `pages` (`title`, `headline`, `bodytext`) VALUES ('$title', '$headline', '$bodytext')";
+        if($id <> '') {
+            $sql = "update `pages` SET `title`='$title', `headline`='$headline', `bodytext`='$bodytext' where `id`=$id;";
+            if(isset($_POST['delete'])) {
+                $sql = "delete from `pages` where `id`=$id;";
+            }
+        }
+
         $db->fetchAll($sql);
     }
 
@@ -124,11 +137,20 @@ function getAdminPage() {
         $html .= '<input type="text" name="bodytext" id="bodytext" value="' . $page->bodytext . '">';
         $html .= '<input type="hidden" name="id" id="id" value="' . $page->id . '">';
         $html .= '<input type="submit" value="edit">';
+        $html .= '<input type="submit" name="delete" value="delete">';
         $html .= '</form>';
     }
     $html .= '</div>';
 
-    // Pages foreach formular
+    $html .= '<form name="form-" action="" method="post">';
+    $html .= '<label for="title">Title</label>';
+    $html .= '<input type="text" name="title" id="title" value="">';
+    $html .= '<label for="headline">Headline</label>';
+    $html .= '<input type="text" name="headline" id="headline" value="">';
+    $html .= '<label for="bodytext">Bodytext</label>';
+    $html .= '<input type="text" name="bodytext" id="bodytext" value="">';
+    $html .= '<input type="submit" name="add" value="add">';
+    $html .= '</form>';
 
     return $html;
 }
