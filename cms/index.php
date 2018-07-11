@@ -8,7 +8,6 @@ require_once 'my_db.php';
 require_once 'functions.inc.php';
 
 $content = getContent();
-
 ?>
 <html>
     <head>
