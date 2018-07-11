@@ -16,13 +16,11 @@ function getCmsNavigation() {
 
     foreach ($rows as $row) {
         $title = $row->title;
+        $id = $row->id;
 
-        var_dump($title);exit;
+        $link = '/cms/?page=' . $id;
 
-        $link = '/cms/?page=' . $replace;
-        $display = ucfirst($replace);
-
-        $html .= '<li><a href="' . $link . '">' . $display . '</a></li>';
+        $html .= '<li><a href="' . $link . '">' . $title . '</a></li>';
     }
 
     $html .= '<ul>';
@@ -32,16 +30,26 @@ function getCmsNavigation() {
 
 function getContent($path = CMSPATH) {
 
-    if(!isset($_GET['page'])) {
-        $pageName = 'start';
-    } else {
-        $pageName = $_GET['page'];
+    $pageId = '1';
+    if(isset($_GET['page'])){
+        $pageId = $_GET['page'];
     }
 
-    $pathToFile = $path . $pageName . '.inc.php';
+    $db = new my_db(DB_MAIN);
 
-    if(is_file($pathToFile)) {
-        require_once $pathToFile;
+    $page = $db->fetchAll('SELECT * FROM pages WHERE id=' . $pageId);
+
+    // Wenn Datensatz vorhanden
+    if(!empty($page)) {
+        $dbContent = $page[0];
+
+        $content = [
+            'title' => $dbContent->title,
+            'content' => [
+                'headline' => $dbContent->headline,
+                'bodytext' => $dbContent->bodytext
+            ]
+        ];
     } else {
         require_once $path . '404.php';
     }
@@ -58,7 +66,7 @@ function getLogin() {
         return 'Willkommen mein Freund <a href="/cms/?logout=1">Logout</a>';
     }
 
-    $html = '<form action="index.php" method="post">';
+    $html = '<form action="" method="post">';
     $html .= '<div><input type="text" name="username" id="username"></div>';
     $html .= '<div><input type="password" name="password" id="password"></div>';
     $html .= '<div><input type="submit" value="Login"></div>';
