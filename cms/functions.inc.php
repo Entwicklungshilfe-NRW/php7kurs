@@ -7,19 +7,17 @@
  */
 
 function getCmsNavigation() {
-    $files = glob(CMSPATH . '*.inc.php');
+    // Connect to database db1
+    $db = new my_db(DB_MAIN);
+
+    $rows = $db->fetchAll('SELECT * FROM pages');
 
     $html = '<ul>';
 
-    foreach ($files as $file) {
-        $replace = str_replace(
-            [
-                CMSPATH,
-                '.inc.php'
-            ],
-            '',
-            $file
-        );
+    foreach ($rows as $row) {
+        $title = $row->title;
+
+        var_dump($title);exit;
 
         $link = '/cms/?page=' . $replace;
         $display = ucfirst($replace);

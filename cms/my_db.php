@@ -1,14 +1,4 @@
 <?php
-
-define('DB_MAIN', 'localhost|root|root|grundkurs');
-
-// Connect to database db1
-$db = new my_db(DB_MAIN);
-
-$rows = $db->fetchAll('SELECT * FROM pages');
-
-var_dump($rows);
-
 class my_db{
 
     private static $databases;

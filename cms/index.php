@@ -4,6 +4,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 require_once 'config.ing.php';
+require_once 'my_db.php';
 require_once 'functions.inc.php';
 
 $content = getContent();
